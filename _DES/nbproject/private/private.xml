@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/NetBeansProyects/_DES/src/UX/cifradoDes.java</file>
-            <file>file:/D:/NetBeansProyects/_DES/src/cifrado/EjemploDES.java</file>
-            <file>file:/D:/NetBeansProyects/_DES/src/cifrado/algoritmoDes.java</file>
+            <file>file:/D:/NetBeansProyects/javaGith/sifrado_DES_java/_DES/src/UX/cifradoDes.java</file>
+            <file>file:/D:/NetBeansProyects/javaGith/sifrado_DES_java/_DES/src/cifrado/cifrado_mensaje_des.java</file>
+            <file>file:/D:/NetBeansProyects/javaGith/sifrado_DES_java/_DES/src/cifrado/EjemploDES.java</file>
+            <file>file:/D:/NetBeansProyects/javaGith/sifrado_DES_java/_DES/src/cifrado/cifrado_archivos_des.java</file>
         </group>
     </open-files>
 </project-private>

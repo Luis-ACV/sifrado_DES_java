@@ -6,12 +6,10 @@
 package cifrado;
 
 import java.security.*;
-
 import javax.crypto.*;
-import javax.crypto.interfaces.*;
 import javax.crypto.spec.*;
-
 import java.io.*;
+import java.util.*;
 
 public class EjemploDES {
 	/*  Ejemplo de uso de funciones de resumen Hash
