@@ -8,6 +8,8 @@ import javax.swing.*;
 public class cifradoDes extends javax.swing.JFrame {
     cifrado_mensaje_des _DES_mensaje;
     String ruta;
+
+    int valor = 0;
     /**
      * Creates new form cifradoDes
      */
@@ -18,56 +20,87 @@ public class cifradoDes extends javax.swing.JFrame {
     //coloca todos los elementos en blanco
     protected void limpiar(){
         txtClave_privada.setText("");
-        txtClave_publica.setText("");
         ruta = "";
-        jLabel4.setText(ruta);
+        valor = 0;
+        textAreaMensaje.setText(ruta);
+        textAreaMensaje.setEditable(true);
     }//limpiar
     
-    //realizamos la busqueda del archivo a sifrar haciendo uso de jfilechooserl
-    protected void seleccionArchivo(){
-       
-        jFileChooser1.showOpenDialog(jPanel1);
-        ruta = jFileChooser1.getSelectedFile().getAbsolutePath();
+    
+    protected void accionCifrado(){
+        String clave = txtClave_privada.getText() ;
+        String _mensaje = textAreaMensaje.getText();
         
-        if( ruta != null ){
-            jLabel4.setText(ruta);
+        if( !_mensaje.equals("") && !clave.equals("") ){
+
+            if( clave.length() > 7 ){
+                  // inciamos la clace mensajeCrifado para el cifrado del mensaje
+                  mensajeCifrado( _mensaje, clave );
+                
+
+            }else{
+                 mensaje( "La clave es muy corta, coloca una clave mayor a 7 caracteres" , "Advertencia", 2);
+            }
+
         }else{
-            mensaje("No se ha seleccionado ningun archivo", "Error");
+            mensaje( "Coloca el mensaje y la clave para cifrar" , "Advertencia", 2);
         }
-    }//seleccionArchivo
+        
+    }//accionCifrado
     
+    protected void accionesDecifrado(){
+        
+        String clave = txtClave_privada.getText() ;
+        String _mensaje = textAreaMensaje.getText();
+        
+        if( !_mensaje.equals("") && !clave.equals("") ){
+
+            if( clave.length() > 7 ){
+                  // inciamos la clace mensajeCrifado para el cifrado del mensaje
+                  mensajeDesifado( _mensaje, clave );
+                
+
+            }else{
+                 mensaje( "La clave es muy corta, coloca una clave mayor a 7 caracteres" , "Advertencia", 2);
+            }
+
+        }else{
+            mensaje( "Coloca el mensaje y la clave para cifrar" , "Advertencia", 2);
+        }
+        
+    }//accionCifrado
     
-    protected void mensajeCifrado(){
+    protected void mensajeCifrado(String mensaje, String clave){
         
         try {
             // TODO add your handling code here:
-            String mesnaje_cifrado = _DES_mensaje.cifrar( txtClave_privada.getText(), txtClave_publica.getText());
-            
-            mensaje(mesnaje_cifrado, "Mesnaje cifrado");
+            String _clave = txtClave_privada.getText() ;
+            String mesnaje_cifrado = _DES_mensaje.cifrar( mensaje, clave);
+             
+            textAreaMensaje.setText(mesnaje_cifrado);
+             
+            mensaje("El mensaje se ha cifado", "Mensaje cifrado", 1);
             
             
         } catch (Exception ex) {
             Logger.getLogger(cifradoDes.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }//mensajeCifrado
     
-    protected String byte_a_String( byte[] _mensaje ){
-        
-        String cadena_de_texto_mensaje = "";
-        
+    protected void mensajeDesifado(String mensaje, String clave){
+            
         try {
-            
-            cadena_de_texto_mensaje = new String(_mensaje,java.nio.charset.StandardCharsets.UTF_8);
-            
-        } catch (Exception e) {
-            mensaje( e.getMessage(), "Error" );
+
+          textAreaMensaje.setText( _DES_mensaje.descifrar(mensaje, clave)  );
+          
+        } catch (Exception ex) {
+            Logger.getLogger(cifradoDes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return cadena_de_texto_mensaje;
-    }
+    }//archivoCifrado
+    
     //ventana de daialogo para la muestra de mensajes
-    protected void mensaje(String _mensaje, String titulo){
-        JOptionPane.showMessageDialog(null, _mensaje, titulo, NORMAL);
+    protected void mensaje(String _mensaje, String titulo, int tipo){
+        JOptionPane.showMessageDialog(null, _mensaje, titulo, tipo);
     }//mensaje
 
     /**
@@ -83,15 +116,13 @@ public class cifradoDes extends javax.swing.JFrame {
         jDialog1 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         btnLimpiar = new javax.swing.JButton();
         btn_cifrado = new javax.swing.JButton();
         btn_desifrado = new javax.swing.JButton();
         txtClave_privada = new javax.swing.JTextField();
-        txtClave_publica = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        btnSeleccion_de_archivo = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textAreaMensaje = new javax.swing.JTextArea();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -109,9 +140,7 @@ public class cifradoDes extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "DES", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 36))); // NOI18N
 
-        jLabel1.setText("Clave privada");
-
-        jLabel2.setText("Selecciona el archivo para cifrar");
+        jLabel1.setText("Clave");
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -136,16 +165,13 @@ public class cifradoDes extends javax.swing.JFrame {
 
         txtClave_privada.setFocusCycleRoot(true);
 
-        jLabel3.setText("Clave publica");
+        jLabel4.setText("Mensaje");
 
-        btnSeleccion_de_archivo.setText("Seleccionar archivo");
-        btnSeleccion_de_archivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSeleccion_de_archivoActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        textAreaMensaje.setColumns(20);
+        textAreaMensaje.setLineWrap(true);
+        textAreaMensaje.setRows(5);
+        textAreaMensaje.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(textAreaMensaje);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -157,24 +183,19 @@ public class cifradoDes extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)))
+                            .addComponent(jLabel4)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(53, 53, 53)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtClave_publica, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtClave_privada, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtClave_privada, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSeleccion_de_archivo, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btn_cifrado, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btn_desifrado, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btn_cifrado, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_desifrado, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -184,23 +205,17 @@ public class cifradoDes extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtClave_privada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtClave_publica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSeleccion_de_archivo)
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cifrado)
                     .addComponent(btn_desifrado))
                 .addGap(18, 18, 18)
                 .addComponent(btnLimpiar)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -218,13 +233,8 @@ public class cifradoDes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_cifradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cifradoActionPerformed
-        mensajeCifrado();
+        accionCifrado();
     }//GEN-LAST:event_btn_cifradoActionPerformed
-
-    private void btnSeleccion_de_archivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccion_de_archivoActionPerformed
-        // TODO add your handling code here:
-        seleccionArchivo();
-    }//GEN-LAST:event_btnSeleccion_de_archivoActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
@@ -233,7 +243,7 @@ public class cifradoDes extends javax.swing.JFrame {
 
     private void btn_desifradoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_desifradoActionPerformed
         // TODO add your handling code here:
-        
+        accionesDecifrado();
     }//GEN-LAST:event_btn_desifradoActionPerformed
 
     /**
@@ -273,17 +283,15 @@ public class cifradoDes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnSeleccion_de_archivo;
     private javax.swing.JButton btn_cifrado;
     private javax.swing.JButton btn_desifrado;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea textAreaMensaje;
     private javax.swing.JTextField txtClave_privada;
-    private javax.swing.JTextField txtClave_publica;
     // End of variables declaration//GEN-END:variables
 }
