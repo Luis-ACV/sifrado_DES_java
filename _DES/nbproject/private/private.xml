@@ -5,7 +5,7 @@
             <url>src/UX/cifradoDes.java</url>
             <bookmark id="1">
                 <name/>
-                <line>77</line>
+                <line>98</line>
                 <key/>
             </bookmark>
         </file>
@@ -14,8 +14,6 @@
         <group>
             <file>file:/D:/NetBeansProyects/javaGith/sifrado_DES_java/_DES/src/UX/cifradoDes.java</file>
             <file>file:/D:/NetBeansProyects/javaGith/sifrado_DES_java/_DES/src/cifrado/cifrado_mensaje_des.java</file>
-            <file>file:/D:/NetBeansProyects/javaGith/sifrado_DES_java/_DES/src/cifrado/EjemploDES.java</file>
-            <file>file:/D:/NetBeansProyects/javaGith/sifrado_DES_java/_DES/src/cifrado/cifrado_archivos_des.java</file>
         </group>
     </open-files>
 </project-private>
