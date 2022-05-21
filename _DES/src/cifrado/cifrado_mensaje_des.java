@@ -53,7 +53,7 @@ public class cifrado_mensaje_des {
         SecureRandom sr = new SecureRandom();
         //utiliza la llave para el desepaquetado
         DESKeySpec dks = new DESKeySpec(clave.getBytes());
-        //cra los objetos des
+        //crear los objetos des
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
         SecretKey key1 = keyFactory.generateSecret(dks);
         
